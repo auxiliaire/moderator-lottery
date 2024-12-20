@@ -6,7 +6,7 @@ on:
     # Daily at 8:20 UTC
     - cron: '20 8 * * *'
 jobs:
-  track_pr:
+  update_moderator:
     runs-on: ubuntu-latest
     environment: Workflow
     steps:
@@ -34,7 +34,9 @@ jobs:
         run: |
           index=$((${{ env.MODERATOR_INDEX}} + 1))
           moderatorList=${{ env.MODERATOR_LIST }}
+          max=$((${#moderatorList[@]} - 1))
           echo 'Index: '$index
+          echo 'Max: '$max
           echo 'Current: '${moderatorList[$index]}
         env:
           MODERATOR_INDEX: ${{ vars.MODERATOR_INDEX }}
