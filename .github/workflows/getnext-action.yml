@@ -13,26 +13,6 @@ jobs:
         MODERATOR_INDEX: ${{ vars.MODERATOR_INDEX }}
         MODERATOR_LIST: ${{ vars.MODERATOR_LIST }}
     steps:
-      - name: Collect information
-        run: |
-          numOpenIssues="$(gh api graphql -F owner=$OWNER -F name=$REPO -f query='
-            query($name: String!, $owner: String!) {
-              repository(owner: $owner, name: $name) {
-                issues(states:OPEN){
-                  totalCount
-                }
-              }
-            }
-          ' --jq '.data.repository.issues.totalCount')"
-
-          echo 'NUM_OPEN_ISSUES='$numOpenIssues >> $GITHUB_ENV
-          echo 'Run attempt: '${{ github.run_attempt }}
-          echo 'Run ID: '${{ github.run_id }}
-          echo 'Run number: '${{ github.run_number }}
-        env:
-          GH_TOKEN: ${{ secrets.WORKFLOW_GH_TOKEN }}
-          OWNER: ${{ github.repository_owner }}
-          REPO: ${{ github.event.repository.name }}
       - name: Calculate next moderator
         run: |
           index=$((${{ env.MODERATOR_INDEX }} + 1))
