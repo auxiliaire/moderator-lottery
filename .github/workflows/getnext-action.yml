@@ -8,6 +8,7 @@ on:
 jobs:
   track_pr:
     runs-on: ubuntu-latest
+    environment: Workflow
     steps:
       - run: |
           numOpenIssues="$(gh api graphql -F owner=$OWNER -F name=$REPO -f query='
