@@ -35,7 +35,7 @@ jobs:
           index=$((${{ env.MODERATOR_INDEX}} + 1))
           moderatorList=${{ fromJSON(env.MODERATOR_LIST) }}
           echo 'Index: '$index
-          echo 'List: '$moderatorList
+          echo 'Current: '$moderatorList[$index]
         env:
           MODERATOR_INDEX: ${{ vars.MODERATOR_INDEX }}
           MODERATOR_LIST: ${{ vars.MODERATOR_LIST }}
