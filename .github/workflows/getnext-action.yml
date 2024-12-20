@@ -9,6 +9,9 @@ jobs:
   update_moderator:
     runs-on: ubuntu-latest
     environment: Workflow
+    env:
+        MODERATOR_INDEX: ${{ vars.MODERATOR_INDEX }}
+        MODERATOR_LIST: ${{ vars.MODERATOR_LIST }}
     steps:
       - name: Collect information
         run: |
@@ -30,7 +33,7 @@ jobs:
           GH_TOKEN: ${{ secrets.WORKFLOW_GH_TOKEN }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
-      - name: Get result
+      - name: Calculate next moderator
         run: |
           index=$((${{ env.MODERATOR_INDEX}} + 1))
           moderatorList=${{ env.MODERATOR_LIST }}
@@ -38,12 +41,15 @@ jobs:
           if (( $index > $max )); then
             index=0
           fi
-          echo 'Index: '$index
+          echo 'MODERATOR_INDEX='$index >> $GITHUB_ENV
+          echo 'Index: '${{ env.MODERATOR_INDEX }}
           echo 'Max: '$max
           echo 'Current: '${moderatorList[$index]}
+      - name: Update variables
+        run: |
+          gh variable set MODERATOR_INDEX --body "$MODERATOR_INDEX" --env Workflow
         env:
-          MODERATOR_INDEX: ${{ vars.MODERATOR_INDEX }}
-          MODERATOR_LIST: ${{ vars.MODERATOR_LIST }}
+          GH_TOKEN: ${{ secrets.WORKFLOW_GH_TOKEN }}
       #- run: |
       #    gh issue create --title "Issue report" --body "$NUM_OPEN_ISSUES issues remaining" --repo $GITHUB_REPOSITORY
       #  env:
