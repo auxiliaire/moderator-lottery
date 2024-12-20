@@ -10,7 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     environment: Workflow
     steps:
-      - run: |
+      - name: Collect information
+        run: |
           numOpenIssues="$(gh api graphql -F owner=$OWNER -F name=$REPO -f query='
             query($name: String!, $owner: String!) {
               repository(owner: $owner, name: $name) {
@@ -29,10 +30,14 @@ jobs:
           GH_TOKEN: ${{ secrets.WORKFLOW_GH_TOKEN }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
-      - run: |
+      - name: Get result
+        run: |
+          moderatorList=${{ fromJSON(env.MODERATOR_LIST) }}
           echo 'Index: '$MODERATOR_INDEX
+          echo 'List: '$moderatorList
         env:
           MODERATOR_INDEX: ${{ vars.MODERATOR_INDEX }}
+          MODERATOR_LIST: ${{ vars.MODERATOR_LIST }}
       #- run: |
       #    gh issue create --title "Issue report" --body "$NUM_OPEN_ISSUES issues remaining" --repo $GITHUB_REPOSITORY
       #  env:
