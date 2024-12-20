@@ -33,7 +33,7 @@ jobs:
       - name: Get result
         run: |
           index=$((${{ env.MODERATOR_INDEX}} + 1))
-          moderatorList=${{ fromJSON(env.MODERATOR_LIST) }}
+          moderatorList=${{ env.MODERATOR_LIST }}
           echo 'Index: '$index
           echo 'Current: '${moderatorList[$index]}
         env:
