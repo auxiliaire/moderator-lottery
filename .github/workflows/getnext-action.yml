@@ -41,16 +41,19 @@ jobs:
           if (( $index > $max )); then
             index=0
           fi
+          next=${moderatorList[$index]}
           echo 'MODERATOR_INDEX='$index >> $GITHUB_ENV
           echo 'Index: '$index
           echo 'Max: '$max
-          echo 'Current: '${moderatorList[$index]}
+          echo 'Next: '$next
+          echo 'CURRENT_MODERATOR='$next >> $GITHUB_ENV
       - name: Update variables
         run: |
           gh variable set MODERATOR_INDEX --body "$MODERATOR_INDEX" --env Workflow --repo $GITHUB_REPOSITORY
         env:
           GH_TOKEN: ${{ secrets.WORKFLOW_GH_TOKEN }}
-      #- run: |
-      #    gh issue create --title "Issue report" --body "$NUM_OPEN_ISSUES issues remaining" --repo $GITHUB_REPOSITORY
-      #  env:
-      #    GH_TOKEN: ${{ secrets.WORKFLOW_GH_TOKEN }}
+      - name: Update report
+        run: |
+          gh issue edit 1 --title "Moderator report" --body "The current moderator is $CURRENT_MODERATOR." --repo $GITHUB_REPOSITORY
+        env:
+          GH_TOKEN: ${{ secrets.WORKFLOW_GH_TOKEN }}
