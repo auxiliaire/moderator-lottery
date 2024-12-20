@@ -1,4 +1,4 @@
-name: Report remaining open issues
+name: Report upcoming moderator
 on:
   push:
     branches: [ "main" ]
