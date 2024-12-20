@@ -32,8 +32,9 @@ jobs:
           REPO: ${{ github.event.repository.name }}
       - name: Get result
         run: |
+          index=$((${{ env.MODERATOR_INDEX}} + 1))
           moderatorList=${{ fromJSON(env.MODERATOR_LIST) }}
-          echo 'Index: '$MODERATOR_INDEX
+          echo 'Index: '$index
           echo 'List: '$moderatorList
         env:
           MODERATOR_INDEX: ${{ vars.MODERATOR_INDEX }}
