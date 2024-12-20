@@ -29,6 +29,10 @@ jobs:
           GH_TOKEN: ${{ secrets.WORKFLOW_GH_TOKEN }}
           OWNER: ${{ github.repository_owner }}
           REPO: ${{ github.event.repository.name }}
+      - run: |
+          echo 'Index: '$MODERATOR_INDEX
+        env:
+          MODERATOR_INDEX: ${{ vars.MODERATOR_INDEX }}
       #- run: |
       #    gh issue create --title "Issue report" --body "$NUM_OPEN_ISSUES issues remaining" --repo $GITHUB_REPOSITORY
       #  env:
