@@ -3,8 +3,8 @@ on:
   push:
     branches: [ "main" ]
   schedule:
-    # Daily at 8:20 UTC
-    - cron: '20 8 * * *'
+    # Every Sunday at 19:00 UTC
+    - cron: '0 19 * * 0'
 jobs:
   update_moderator:
     runs-on: ubuntu-latest
