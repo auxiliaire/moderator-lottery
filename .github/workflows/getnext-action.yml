@@ -35,14 +35,14 @@ jobs:
           REPO: ${{ github.event.repository.name }}
       - name: Calculate next moderator
         run: |
-          index=$((${{ env.MODERATOR_INDEX}} + 1))
+          index=$((${{ env.MODERATOR_INDEX }} + 1))
           moderatorList=${{ env.MODERATOR_LIST }}
           max=$((${#moderatorList[@]} - 1))
           if (( $index > $max )); then
             index=0
           fi
           echo 'MODERATOR_INDEX='$index >> $GITHUB_ENV
-          echo 'Index: '$MODERATOR_INDEX
+          echo 'Index: '$index
           echo 'Max: '$max
           echo 'Current: '${moderatorList[$index]}
       - name: Update variables
