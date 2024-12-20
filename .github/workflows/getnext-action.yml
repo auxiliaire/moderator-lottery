@@ -42,12 +42,12 @@ jobs:
             index=0
           fi
           echo 'MODERATOR_INDEX='$index >> $GITHUB_ENV
-          echo 'Index: '${{ env.MODERATOR_INDEX }}
+          echo 'Index: '$MODERATOR_INDEX
           echo 'Max: '$max
           echo 'Current: '${moderatorList[$index]}
       - name: Update variables
         run: |
-          gh variable set MODERATOR_INDEX --body "$MODERATOR_INDEX" --env Workflow
+          gh variable set MODERATOR_INDEX --body "$MODERATOR_INDEX" --env Workflow --repo $GITHUB_REPOSITORY
         env:
           GH_TOKEN: ${{ secrets.WORKFLOW_GH_TOKEN }}
       #- run: |
